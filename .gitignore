@@ -10,7 +10,11 @@
 # dependencies
 node_modules
 
+
+
 package-lock.json
+
+data.json
 # profiling files
 chrome-profiler-events*.json
 speed-measure-plugin*.json

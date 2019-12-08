@@ -27,4 +27,30 @@ export class UserService {
            .http
            .get(`${this.uri}/getData`);
   }
+
+  editBusiness(id) {
+    return this
+            .http
+            .get(`${this.uri}/user/${id}`);
+    }
+  
+    updateBusiness(person_name, business_name, business_gst_number, id) {
+
+      const obj = {
+          id: id,
+          person_name: person_name,
+          business_name: business_name,
+          business_gst_number: business_gst_number
+        };
+      this
+        .http
+        .put(`${this.uri}/putData/${id}`, obj)
+        .subscribe(res => console.log('Done'));
+    }
+    
+    deleteBusiness(id) {
+      return this
+                .http
+                .get(`${this.uri}/deleteUser/${id}`);
+    }
 }

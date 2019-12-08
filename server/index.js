@@ -14,17 +14,17 @@ app.post('/postData',(req,res)=>{
         var postObj = req.body;
         postObj.id = uuid.v4();
         var fileObject ={};
+        var dataArray = [];
         if(err)
         {
            fileObject ={data:[postObj]};
         }
         else
         {
-            var dataArray = JSON.parse(data.toString('utf8')).data;
-            // var userStatus = dataArray.some(function(item,index,array){
-            //     return item.name == req.params.name;
-            // });
-            // if(!userStatus)
+            if(data.length>0)
+            {
+                 dataArray = JSON.parse(data.toString('utf8')).data;
+            }
             dataArray.push(postObj);
             fileObject = {data:dataArray}
         }
@@ -36,6 +36,41 @@ app.post('/postData',(req,res)=>{
             else
             {
                 res.status(200).send({"msg":"success","data":postObj.id});
+            }
+        })
+    })
+    
+   
+
+});
+app.put('/putData/:id',(req,res)=>{
+    fs.readFile('data.json',(err,data)=>{
+        var putObj = req.body;
+        var fileObject ={};
+        if(err)
+        {
+           fileObject ={data:[postObj]};
+        }
+        else
+        {
+            var dataArray = JSON.parse(data.toString('utf8')).data;
+            var index;
+            index=  dataArray.findIndex(function(item,index,array){
+                return item.id==req.params.id;
+            });
+            dataArray[index] = putObj;
+
+            //res.status(200).send({"msg":"Success",data:result});
+            fileObject = {data:dataArray}
+        }
+        fs.writeFile('data.json',JSON.stringify(fileObject),err=>{
+            if(err)
+            {
+                res.status(500).send({"msg":"Failed"})
+            }
+            else
+            {
+                res.status(200).send({"msg":"success","data":"Record updated successfully"});
             }
         })
     })

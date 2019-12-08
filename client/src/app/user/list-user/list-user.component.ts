@@ -14,13 +14,25 @@ export class ListUserComponent implements OnInit {
   constructor(private bs: UserService) { 
   }
 
-  ngOnInit() {
-    this.bs
-      .getBusinesses()
-      .subscribe((data: any) => {
-        console.log(data);
-        this.businesses = data.data;
+  deleteBusiness(id) {
+    this.bs.deleteBusiness(id).subscribe(res => {
+      console.log('Deleted');
+      this.loadDetails();
     });
+  }
+
+  ngOnInit() {
+   this.loadDetails();
+  }
+
+  loadDetails()
+  {
+    this.bs
+    .getBusinesses()
+    .subscribe((data: any) => {
+      console.log(data);
+      this.businesses = data.data;
+  });
   }
 
 }
